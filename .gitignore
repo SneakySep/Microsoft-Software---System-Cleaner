@@ -25,3 +25,6 @@ packages/
 ## OS noise
 Thumbs.db
 desktop.ini
+
+## Local verification sandbox
+.verify-sbx/

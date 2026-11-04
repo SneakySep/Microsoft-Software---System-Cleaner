@@ -1,0 +1,13 @@
+# Keep text files normalized to LF in the repository and in checkouts, so
+# Windows and non-Windows clones produce identical diffs.
+* text=auto eol=lf
+
+# Binary assets Git must never try to diff or line-ending convert.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.bmp binary
+*.zip binary
+*.nupkg binary
