@@ -3,23 +3,39 @@
 
     <!--
         A deliberately small palette: one accent, three text tones, one card surface.
-        Keeping the surface neutral and the accent rare is what stops a utility dashboard
-        from turning into a wall of colour.
+        The surfaces are translucent rather than opaque: the window sits on the operating
+        system's own glass backdrop, so cards tint what the desktop behind the window is
+        showing instead of painting a wall of flat white over it. Every translucent fill
+        is white over that backdrop, which is what keeps the look "liquid glass" rather
+        than merely transparent.
+
+        Text stays near-opaque and slightly darker than a flat-surface theme would need,
+        because its backdrop is no longer a constant: legibility over a dark desktop has
+        to survive the same tokens that look right over a light one.
     -->
-    <Color x:Key="Color.Window">#FFF4F6F8</Color>
-    <Color x:Key="Color.Card">#FFFFFFFF</Color>
-    <Color x:Key="Color.CardBorder">#FFE3E7EC</Color>
-    <Color x:Key="Color.TextPrimary">#FF12151A</Color>
-    <Color x:Key="Color.TextSecondary">#FF6A7480</Color>
-    <Color x:Key="Color.TextTertiary">#FF98A2AE</Color>
+    <Color x:Key="Color.Window">#FFF2F5F9</Color>
+    <Color x:Key="Color.Card">#B4FFFFFF</Color>
+    <Color x:Key="Color.CardBorder">#78FFFFFF</Color>
+    <Color x:Key="Color.RimTop">#F2FFFFFF</Color>
+    <Color x:Key="Color.RimBottom">#4D7E8CA0</Color>
+    <Color x:Key="Color.TextPrimary">#FF0F1319</Color>
+    <Color x:Key="Color.TextSecondary">#FF49525F</Color>
+    <Color x:Key="Color.TextTertiary">#FF75808E</Color>
     <Color x:Key="Color.Accent">#FF0B6BCB</Color>
     <Color x:Key="Color.AccentHover">#FF0A5CAE</Color>
     <Color x:Key="Color.AccentPressed">#FF084C90</Color>
-    <Color x:Key="Color.Track">#FFE8ECF1</Color>
+    <Color x:Key="Color.Track">#66FFFFFF</Color>
     <Color x:Key="Color.Success">#FF0F7B5F</Color>
     <Color x:Key="Color.Warning">#FFB45309</Color>
-    <Color x:Key="Color.RowHover">#FFF3F6FA</Color>
-    <Color x:Key="Color.RowSelected">#FFEAF2FD</Color>
+    <Color x:Key="Color.RowHover">#40FFFFFF</Color>
+    <Color x:Key="Color.RowSelected">#59C9E2F9</Color>
+    <Color x:Key="Color.GlassHover">#CCFFFFFF</Color>
+    <Color x:Key="Color.GlassPressed">#E6FFFFFF</Color>
+    <Color x:Key="Color.FieldFill">#8CFFFFFF</Color>
+    <Color x:Key="Color.BannerWarnFill">#B9FDF4E3</Color>
+    <Color x:Key="Color.BannerWarnBorder">#59F0D9AE</Color>
+    <Color x:Key="Color.BannerGoodFill">#B9E7F8F1</Color>
+    <Color x:Key="Color.BannerGoodBorder">#59BFE3D3</Color>
 
     <SolidColorBrush x:Key="Brush.Window" Color="{StaticResource Color.Window}" />
     <SolidColorBrush x:Key="Brush.Card" Color="{StaticResource Color.Card}" />
@@ -35,9 +51,29 @@
     <SolidColorBrush x:Key="Brush.Warning" Color="{StaticResource Color.Warning}" />
     <SolidColorBrush x:Key="Brush.RowHover" Color="{StaticResource Color.RowHover}" />
     <SolidColorBrush x:Key="Brush.RowSelected" Color="{StaticResource Color.RowSelected}" />
+    <SolidColorBrush x:Key="Brush.GlassHover" Color="{StaticResource Color.GlassHover}" />
+    <SolidColorBrush x:Key="Brush.GlassPressed" Color="{StaticResource Color.GlassPressed}" />
+    <SolidColorBrush x:Key="Brush.FieldFill" Color="{StaticResource Color.FieldFill}" />
+    <SolidColorBrush x:Key="Brush.BannerWarnFill" Color="{StaticResource Color.BannerWarnFill}" />
+    <SolidColorBrush x:Key="Brush.BannerWarnBorder" Color="{StaticResource Color.BannerWarnBorder}" />
+    <SolidColorBrush x:Key="Brush.BannerGoodFill" Color="{StaticResource Color.BannerGoodFill}" />
+    <SolidColorBrush x:Key="Brush.BannerGoodBorder" Color="{StaticResource Color.BannerGoodBorder}" />
+
+    <!--
+        The rim is what sells the glass: a light stroke that is brightest along the top
+        edge and falls off towards a faint dark line at the bottom, so a card reads as a
+        pane catching light rather than a rectangle with an outline.
+    -->
+    <LinearGradientBrush x:Key="Brush.CardRim" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource Color.RimTop}" Offset="0" />
+        <GradientStop Color="#4DFFFFFF" Offset="0.55" />
+        <GradientStop Color="{StaticResource Color.RimBottom}" Offset="1" />
+    </LinearGradientBrush>
 
     <FontFamily x:Key="Font.Ui">Segoe UI Variable Text, Segoe UI</FontFamily>
     <FontFamily x:Key="Font.Display">Segoe UI Variable Display, Segoe UI Semibold, Segoe UI</FontFamily>
+    <!-- Windows 11's icon font, with the Windows 10 one as the fallback. -->
+    <FontFamily x:Key="Font.Icons">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
 
     <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
 
@@ -74,7 +110,7 @@
     <Style x:Key="Text.ColumnHeader" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Font.Ui}" />
         <Setter Property="FontSize" Value="11" />
-        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="Foreground" Value="{StaticResource Brush.TextTertiary}" />
     </Style>
 
@@ -82,9 +118,9 @@
 
     <Style x:Key="Card" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource Brush.Card}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Brush.CardBorder}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Brush.CardRim}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="CornerRadius" Value="14" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
     </Style>
 
@@ -96,7 +132,7 @@
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Background" Value="{StaticResource Brush.Accent}" />
-        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="Padding" Value="22,10" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
@@ -104,7 +140,7 @@
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="Bd"
                             Background="{TemplateBinding Background}"
-                            CornerRadius="7"
+                            CornerRadius="17"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="True">
                         <ContentPresenter HorizontalAlignment="Center"
@@ -144,7 +180,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{StaticResource Brush.CardBorder}"
                             BorderThickness="1"
-                            CornerRadius="7"
+                            CornerRadius="17"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="True">
                         <ContentPresenter HorizontalAlignment="Center"
@@ -153,10 +189,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Brush.RowHover}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Brush.GlassHover}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Brush.RowSelected}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Brush.GlassPressed}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Bd" Property="Opacity" Value="0.45" />
@@ -218,7 +254,7 @@
                             Background="{StaticResource Brush.Card}"
                             BorderBrush="{StaticResource Brush.CardBorder}"
                             BorderThickness="1"
-                            CornerRadius="6"
+                            CornerRadius="13"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="True">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -231,6 +267,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Brush.Accent}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Brush.GlassHover}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.45" />
@@ -248,7 +285,7 @@
         <Setter Property="FontFamily" Value="{StaticResource Font.Ui}" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="Foreground" Value="{StaticResource Brush.TextPrimary}" />
-        <Setter Property="Background" Value="{StaticResource Brush.Card}" />
+        <Setter Property="Background" Value="{StaticResource Brush.FieldFill}" />
         <Setter Property="CaretBrush" Value="{StaticResource Brush.TextPrimary}" />
         <Setter Property="Padding" Value="9,6" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -259,7 +296,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{StaticResource Brush.CardBorder}"
                             BorderThickness="1"
-                            CornerRadius="6"
+                            CornerRadius="10"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="True">
                         <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" />
@@ -292,9 +329,9 @@
                     <StackPanel Orientation="Horizontal" Background="Transparent">
                         <Border x:Name="Box"
                                 Width="16" Height="16"
-                                CornerRadius="4"
-                                Background="{StaticResource Brush.Card}"
-                                BorderBrush="#FFC7CDD6"
+                                CornerRadius="5"
+                                Background="{StaticResource Brush.FieldFill}"
+                                BorderBrush="{StaticResource Brush.CardBorder}"
                                 BorderThickness="1"
                                 VerticalAlignment="Center"
                                 SnapsToDevicePixels="True">
@@ -344,13 +381,13 @@
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="Bd"
                             Background="{TemplateBinding Background}"
-                            CornerRadius="4"
+                            CornerRadius="6"
                             Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Brush.RowSelected}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Brush.RowHover}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource Brush.TextTertiary}" />
@@ -371,7 +408,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Bd" Background="Transparent" CornerRadius="6" Padding="14,8">
+                    <Border x:Name="Bd" Background="Transparent" CornerRadius="8" Padding="14,8">
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>

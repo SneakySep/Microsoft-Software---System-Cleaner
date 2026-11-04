@@ -204,13 +204,13 @@
                 Visibility="{Binding HasMessage, Converter={StaticResource BoolToVisibility}}">
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Background" Value="#FFEDF8F3" />
-                    <Setter Property="BorderBrush" Value="#FFBFE3D3" />
+                    <Setter Property="Background" Value="{StaticResource Brush.BannerGoodFill}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource Brush.BannerGoodBorder}" />
                     <Setter Property="BorderThickness" Value="1" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding MessageIsError}" Value="True">
-                            <Setter Property="Background" Value="#FFFDF6E9" />
-                            <Setter Property="BorderBrush" Value="#FFF0D9AE" />
+                            <Setter Property="Background" Value="{StaticResource Brush.BannerWarnFill}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource Brush.BannerWarnBorder}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

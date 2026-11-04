@@ -29,6 +29,8 @@ assembly, so moving the UI to WinUI 3 later means replacing one project.
 ## Requirements
 
 - Windows 10 1607 or later (developed and verified on Windows with .NET 10)
+- Windows 11 22H2 or later to see the liquid-glass backdrop: it is drawn by DWM on request, and on
+  Windows 10 or older builds the request simply fails, leaving the solid surface - nothing breaks
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - No third-party NuGet packages at runtime
 
@@ -84,9 +86,10 @@ WindowsCleaner/
 │   │
 │   ├── WindowsCleaner.App/             # WPF UI. Contains no file system code.
 │   │   ├── App.xaml(.cs)               # Composition root
-│   │   ├── MainWindow.xaml(.cs)        # Dashboard (code-behind is intentionally empty)
+│   │   ├── MainWindow.xaml(.cs)        # Dashboard (code-behind: backdrop wiring only)
 │   │   ├── SchedulerWindow.xaml(.cs)   # Scheduled cleaning dialog
-│   │   ├── Theme/Theme.xaml            # Palette, typography, control styles
+│   │   ├── Theme/Theme.xaml            # Glass palette, typography, control styles
+│   │   ├── Theme/Backdrop.cs           # DWM acrylic backdrop, degrades to solid
 │   │   ├── ViewModels/                 # MainViewModel, SchedulerViewModel, commands
 │   │   ├── Converters/
 │   │   ├── Humanize.cs                 # Relative ages and durations
@@ -485,3 +488,9 @@ never hidden. The same applies to `schedule --install` / `--remove`.
 - **The junction/symlink traversal test skips itself** when run without
   `SeCreateSymbolicLinkPrivilege` (admin or Developer Mode), because the test cannot create a
   link to traverse. The related `PathGuard` logic is covered by unit tests regardless.
+
+---
+
+## License
+
+[MIT](LICENSE) © 2026 SneakySep.

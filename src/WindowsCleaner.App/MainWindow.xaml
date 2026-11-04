@@ -54,15 +54,15 @@
                     Shown only when running unelevated, so the user understands up front why
                     C:\Windows\Temp will be reported as inaccessible rather than cleaned.
                 -->
-                <Border Background="#FFFDF6E9"
-                        BorderBrush="#FFF0D9AE"
+                <Border Background="{StaticResource Brush.BannerWarnFill}"
+                        BorderBrush="{StaticResource Brush.BannerWarnBorder}"
                         BorderThickness="1"
-                        CornerRadius="6"
+                        CornerRadius="8"
                         Padding="10,6"
                         Visibility="{Binding ShowElevationNotice, Converter={StaticResource BoolToVisibility}}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE7BA;"
-                                   FontFamily="Segoe MDL2 Assets"
+                                   FontFamily="{StaticResource Font.Icons}"
                                    FontSize="12"
                                    VerticalAlignment="Center"
                                    Margin="0,0,7,0"
@@ -91,15 +91,15 @@
                     Confirms the restart actually worked. Worth a line of its own: "the banner went
                     away" is a weak signal for something as consequential as running elevated.
                 -->
-                <Border Background="#FFEDF8F3"
-                        BorderBrush="#FFBFE3D3"
+                <Border Background="{StaticResource Brush.BannerGoodFill}"
+                        BorderBrush="{StaticResource Brush.BannerGoodBorder}"
                         BorderThickness="1"
-                        CornerRadius="6"
+                        CornerRadius="8"
                         Padding="10,6"
                         Visibility="{Binding ShowElevatedNotice, Converter={StaticResource BoolToVisibility}}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE72E;"
-                                   FontFamily="Segoe MDL2 Assets"
+                                   FontFamily="{StaticResource Font.Icons}"
                                    FontSize="12"
                                    VerticalAlignment="Center"
                                    Margin="0,0,7,0"
@@ -171,8 +171,12 @@
         <!-- ============================== Actions ============================= -->
         <Grid Grid.Row="3" Margin="0,18,0,0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <!--
+                    Scan is a secondary, glassy action: it changes nothing, it only reads. The one
+                    accent-filled button on the page is the one that removes things.
+                -->
                 <Button Content="Scan"
-                        Style="{StaticResource PrimaryButton}"
+                        Style="{StaticResource SecondaryButton}"
                         Command="{Binding ScanCommand}" />
                 <Button Content="Clean Now"
                         Style="{StaticResource PrimaryButton}"
@@ -227,7 +231,7 @@
                                            ToolTip="{Binding}"
                                            Foreground="{StaticResource Brush.TextPrimary}" />
                                 <Button Content="&#xE711;"
-                                        FontFamily="Segoe MDL2 Assets"
+                                        FontFamily="{StaticResource Font.Icons}"
                                         FontSize="10"
                                         Style="{StaticResource LinkButton}"
                                         Padding="5,3"
@@ -262,14 +266,14 @@
                 Visibility="{Binding HasBanner, Converter={StaticResource BoolToVisibility}}">
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Background" Value="#FFFDF6E9" />
-                    <Setter Property="BorderBrush" Value="#FFF0D9AE" />
+                    <Setter Property="Background" Value="{StaticResource Brush.BannerWarnFill}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource Brush.BannerWarnBorder}" />
                     <Setter Property="BorderThickness" Value="1" />
                     <Style.Triggers>
                         <!-- Green when something was actually removed, amber when nothing was. -->
                         <DataTrigger Binding="{Binding BannerIsPositive}" Value="True">
-                            <Setter Property="Background" Value="#FFEDF8F3" />
-                            <Setter Property="BorderBrush" Value="#FFBFE3D3" />
+                            <Setter Property="Background" Value="{StaticResource Brush.BannerGoodFill}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource Brush.BannerGoodBorder}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

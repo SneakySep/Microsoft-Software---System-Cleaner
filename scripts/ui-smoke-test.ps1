@@ -25,7 +25,8 @@ param(
 
 . "$PSScriptRoot/UiAutomation.ps1"
 
-$ScheduledTaskName = '\WindowsCleaner\ScheduledClean'
+$ScheduledTaskPath = '\WindowsCleaner\'
+$ScheduledTaskName = 'ScheduledClean'
 
 $proc = $null
 
@@ -284,9 +285,12 @@ try {
 
     # Whether a job already exists decides what "Run now" should look like, so it is read from the
     # scheduler rather than assumed: on a machine that already had one the state below would
-    # otherwise be reported as a failure when it is in fact correct.
-    & schtasks.exe /Query /TN $ScheduledTaskName 2>&1 | Out-Null
-    $hadJob = $LASTEXITCODE -eq 0
+    # otherwise be reported as a failure when it is in fact correct. The cmdlets rather than
+    # schtasks.exe because this script runs with $ErrorActionPreference = 'Stop' (UiAutomation.ps1),
+    # and under that, schtasks' "not found" stderr merged back through 2>&1 becomes a terminating
+    # error - aborting the run on exactly the machine state this probe exists to detect.
+    $hadJob = $null -ne (Get-ScheduledTask -TaskName $ScheduledTaskName -TaskPath $ScheduledTaskPath `
+        -ErrorAction SilentlyContinue)
     Write-Output "STAT  job registered before    = $hadJob"
 
     if ($null -ne $dialog) {
